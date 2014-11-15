@@ -1,5 +1,7 @@
 from unittest.case import TestCase
+
 from environment.environment_1d import Environment1D
+
 
 __author__ = 'John H Evans'
 
