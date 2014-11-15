@@ -3,7 +3,7 @@ from unittest.case import TestCase
 from organism.organism import Organism
 
 
-__author__ = 'John H Evans'
+__author__ = 'John Evans'
 
 
 class OrganismTest(TestCase):
@@ -16,3 +16,18 @@ class OrganismTest(TestCase):
     def test_organism_can_be_created_dead(self):
         dead_organism = Organism(alive=False)
         self.assertFalse(dead_organism.is_alive)
+
+    def test_organism_can_be_given_name(self):
+        named_organism = Organism(name="Alfred")
+        self.assertEqual(named_organism.name, "Alfred")
+
+    def test_organism_given_unique_default_name(self):
+        self.assertTrue(self.organism.name)
+        organism_1 = Organism()
+        organism_2 = Organism()
+        self.assertNotEqual(self.organism.name, organism_1.name)
+        self.assertNotEqual(self.organism.name, organism_2.name)
+        self.assertNotEqual(organism_1.name, organism_2.name)
+
+    def test_undecorated_organism_has_empty_genome(self):
+        self.assertEqual(self.organism.genome, [])
