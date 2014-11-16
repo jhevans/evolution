@@ -1,3 +1,5 @@
+from types import MethodType
+
 __author__ = 'John Evans'
 
 
@@ -19,6 +21,8 @@ class Environment1D(object):
 
     def increment_age(self):
         self._age += 1
+        for organism in self._organisms:
+            organism.increment_age()
 
     def get_organisms(self):
         return self._organisms
@@ -26,6 +30,11 @@ class Environment1D(object):
 
 def give_age(instance):
     instance.age = 0
+
+    def increment_age(self):
+        self.age += 1
+
+    instance.increment_age = MethodType(increment_age, instance)
     return instance
 
 

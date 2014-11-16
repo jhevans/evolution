@@ -25,11 +25,18 @@ class TestEnvironment1D(TestCase):
     def test_get_max_dimensions(self):
         self.assertEqual(self.env.get_max_dimensions(), self.DEFAULT_DIMENSIONS)
 
-    def test_increment_age(self):
+    def test_increment_age_increases_environment_age(self):
         self.env.increment_age()
         self.assertEqual(self.env.get_age(), 1)
         self.env.increment_age()
         self.assertEqual(self.env.get_age(), 2)
+
+    def test_increment_age_calls_increment_age_on_organisms(self):
+        for organism in self.env.get_organisms():
+            self.assertEqual(organism.age, 0)
+        self.env.increment_age()
+        for organism in self.env.get_organisms():
+            self.assertEqual(organism.age, 1)
 
     def test_get_organisms_returns_named_organisms(self):
         for i, organism in enumerate(self.env.get_organisms()):
@@ -56,6 +63,15 @@ class TestGiveAgeDecorator(TestCase):
 
     def test_decorated_instance_age_is_0(self):
         self.assertEqual(self.decorated_instance.age, 0)
+
+    def test_decorated_instance_has_increment_age_method(self):
+        self.assertTrue(hasattr(self.decorated_instance, 'increment_age'))
+
+    def test_increment_age_increments_age(self):
+        self.decorated_instance.increment_age()
+        self.assertEqual(self.decorated_instance.age, 1)
+        self.decorated_instance.increment_age()
+        self.assertEqual(self.decorated_instance.age, 2)
 
 
 class TestGiveLocationDecorator(TestCase):
