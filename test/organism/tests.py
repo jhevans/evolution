@@ -8,6 +8,7 @@ __author__ = 'John Evans'
 
 class OrganismTest(TestCase):
     def setUp(self):
+        self.context = {}
         self.organism = Organism()
 
     def test_organism_created_alive_by_default(self):
@@ -31,3 +32,12 @@ class OrganismTest(TestCase):
 
     def test_undecorated_organism_has_empty_genome(self):
         self.assertEqual(self.organism.genome, [])
+
+    def test_set_context(self):
+        self.organism.set_context(self.context)
+        self.assertEqual(self.organism._context, self.context)
+
+    def test_get_context(self):
+        self.assertIsNone(self.organism.get_context())
+        self.organism.set_context(self.context)
+        self.assertEqual(self.organism.get_context(), self.context)

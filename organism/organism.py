@@ -7,6 +7,7 @@ class Organism(object):
     def __init__(self, alive=True, name=None):
         Organism._N_ORGANISMS += 1
         self._alive = alive
+        self._context = None
         if name is None:
             self.name = "organism_" + str(Organism._N_ORGANISMS)
         else:
@@ -17,3 +18,9 @@ class Organism(object):
     @property
     def is_alive(self):
         return self._alive
+
+    def set_context(self, context):
+        self._context = context
+
+    def get_context(self):
+        return self._context
