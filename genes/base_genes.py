@@ -1,6 +1,6 @@
 from types import MethodType
 
-from genes.exceptions import TooManyBehaviours
+from genes.exceptions import TooManyBehaviours, BehaviourNotImplemented
 
 
 __author__ = 'John H Evans'
@@ -35,7 +35,7 @@ class EnablerGene(BaseGene):
         self.behaviour()
 
     def behaviour(self):
-        pass
+        raise BehaviourNotImplemented()
 
     def grant_behaviour(self, instance):
         if self.attributes is not None:

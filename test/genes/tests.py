@@ -1,7 +1,7 @@
 from unittest.mock import Mock
 
 from genes.base_genes import EnablerGene, BaseGene
-from genes.exceptions import TooManyBehaviours
+from genes.exceptions import TooManyBehaviours, BehaviourNotImplemented
 
 
 __author__ = 'John H Evans'
@@ -73,6 +73,12 @@ class TestEnablerGene(unittest.TestCase):
         self.assertEqual(self.mock_organism.foo, 1)
         self.assertEqual(self.mock_organism.bar, 'the new value of bar')
 
+    def test_base_enabler_behaviour_method_raises_exception(self):
+        expected_message = "EnablerGene.behaviour() method has not been overridden by subclass"
+        with self.assertRaises(BehaviourNotImplemented) as context_manager:
+            EnablerGene()
+        self.assertEqual(context_manager.exception.message, expected_message)
+
     def test_maximum_1_behaviour(self):
         def bar(self):
             pass
@@ -86,7 +92,7 @@ class TestEnablerGene(unittest.TestCase):
         self.assertIn(self.enabler, BaseGene.get_all_genes())
         self.assertIn(self.non_enabler, BaseGene.get_all_genes())
 
-    def test_get_all_genes_returns_only_enablers(self):
+    def test_get_all_genes_on_enabler_returns_only_enablers(self):
         self.assertIn(self.enabler, EnablerGene.get_all_genes())
         self.assertNotIn(self.non_enabler, EnablerGene.get_all_genes())
 

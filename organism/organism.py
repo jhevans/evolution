@@ -6,7 +6,6 @@ class Organism(object):
 
     def __init__(self, alive=True, name=None):
         Organism._N_ORGANISMS += 1
-        self._alive = alive
         self._context = None
         if name is None:
             self.name = "organism_" + str(Organism._N_ORGANISMS)
@@ -14,10 +13,6 @@ class Organism(object):
             self.name = name
 
         self.genome = []
-
-    @property
-    def is_alive(self):
-        return self._alive
 
     def set_context(self, context):
         self._context = context

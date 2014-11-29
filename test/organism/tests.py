@@ -11,13 +11,6 @@ class OrganismTest(TestCase):
         self.context = {}
         self.organism = Organism()
 
-    def test_organism_created_alive_by_default(self):
-        self.assertTrue(self.organism.is_alive)
-
-    def test_organism_can_be_created_dead(self):
-        dead_organism = Organism(alive=False)
-        self.assertFalse(dead_organism.is_alive)
-
     def test_organism_can_be_given_name(self):
         named_organism = Organism(name="Alfred")
         self.assertEqual(named_organism.name, "Alfred")

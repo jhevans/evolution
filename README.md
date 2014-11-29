@@ -3,7 +3,21 @@ evolution
 
 A toy program I've been meaning to create for ages. The idea is to create an evolutionary simulator. Probably easier said than done.
 
+The three key concepts are the Gene, the Organism and the Environment.  The Gene is a class which is able to decorate an
+Organism, thus granting the Organism abilities or influencing abilities which the Organism may already possess.
+An Organism by itself is completely inert, any properties given to an Organism are granted to it by Genes.  The 
+environment gives the Organism it's context, relative to other Organisms and to the environment itself.
+
+PseudoGenes are a special class of Genes that give organisms fundamental properties like age, energy and mass.  Unlike 
+normal genes they will always be passed on ot the next generation through reproduction.  PseudoGene status is given 
+using PseudoGeneMixin.
+
 TODO:
+- Give organism age using pseudogene
+- Implement increment_age on organism
+- Implement EnvironmentalContext as class
+- Implement supervisor thread to return current state of environment
+
 - Introduce environmental context to organism:
     The organism is only concerned with it's immediate environment.  A gene will need to have some form of limited context in which to operate to stop it becoming overly complicated.
     The idea is that an organism will receive a context from it's environment. This context will provide some information which genes can use to interact with their environment.
