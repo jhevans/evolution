@@ -14,3 +14,15 @@ class Mortality(EnablerGene, PseudoGeneMixin):
             self.alive = False
 
         self.register_behaviour('die', die)
+
+
+class Senescence(EnablerGene, PseudoGeneMixin):
+    attributes = {
+        'age': 0,
+    }
+
+    def behaviour(self):
+        def increment_age(self):
+            self.age += 1
+
+        self.register_behaviour('increment_age', increment_age)

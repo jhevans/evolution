@@ -13,8 +13,7 @@ normal genes they will always be passed on ot the next generation through reprod
 using PseudoGeneMixin.
 
 TODO:
-- Give organism age using pseudogene
-- Implement increment_age on organism
+- Implement Genesis class for instantiating starting organisms
 - Implement EnvironmentalContext as class
 - Implement supervisor thread to return current state of environment
 
