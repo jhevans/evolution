@@ -1,3 +1,4 @@
+import logging
 from random import random
 
 from genes.pseudo_genes import Mortality, Senescence
@@ -5,6 +6,13 @@ from organism.organism import Organism
 
 
 __author__ = 'John H Evans'
+
+logging.basicConfig(
+    filename='logs/evolution.log',
+    level=logging.DEBUG,
+    format='%(asctime)s %(levelname)s: %(name)s: %(message)s',
+    filemode='w',
+)
 
 
 def run():

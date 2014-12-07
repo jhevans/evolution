@@ -1,4 +1,5 @@
-from unittest.mock import Mock
+from unittest.case import skip
+from unittest.mock import Mock, patch
 
 from genes.base_genes import EnablerGene, BaseGene, AttributeGene
 from genes.exceptions import TooManyBehaviours, BehaviourNotImplemented
@@ -29,6 +30,18 @@ class TestBaseGene(unittest.TestCase):
     def test_get_all_genes(self):
         for gene in self.test_genes:
             self.assertIn(gene, BaseGene.get_all_genes())
+
+    @patch('logging.getLogger')
+    def test_get_logger(self, mock_getLogger):
+        self.test_gene_1.get_logger()
+        mock_getLogger.assert_called_with('evolution.genes.base_genes.BaseGene')
+
+    @patch('logging.getLogger')
+    def test_add_gene_logs_debug_message(self, mock_getLogger):
+        mock_logger = Mock()
+        mock_getLogger.return_value = mock_logger
+        BaseGene()
+        mock_logger.debug.assert_called_with('Adding gene BaseGene')
 
 
 class TestAttributeGene(unittest.TestCase):
@@ -65,6 +78,14 @@ class TestAttributeGene(unittest.TestCase):
         self.mock_organism.frobnicate()
         self.assertEqual(self.mock_organism.foo, 1)
         self.assertEqual(self.mock_organism.bar, 'the new value of bar')
+
+    @skip
+    def test_register_method_attribute_logs(self):
+        mock_organism = Mock(spec=Organism)
+        self.attribute_gene.decorate(self.mock_organism)
+        BaseGene.logger = Mock()
+        BaseGene()
+        BaseGene.logger.debug.assert_called_with('Adding gene BaseGene')
 
 
 class TestEnablerGene(unittest.TestCase):

@@ -1,4 +1,5 @@
 from types import MethodType
+import logging
 
 from genes.exceptions import TooManyBehaviours, BehaviourNotImplemented
 
@@ -17,11 +18,17 @@ class BaseGene(object):
 
     @classmethod
     def _add_gene(cls, new_gene):
+        cls.get_logger().debug('Adding gene %s' % (cls.__name__,))
         cls._all_genes.append(new_gene)
 
     @classmethod
     def get_all_genes(cls):
         return cls._all_genes
+
+    @classmethod
+    def get_logger(cls):
+        logger_name = 'evolution.' + cls.__module__ + '.' + cls.__name__
+        return logging.getLogger(logger_name)
 
 
 class AttributeGene(BaseGene):
@@ -31,7 +38,7 @@ class AttributeGene(BaseGene):
 
     def __init__(self):
         super(AttributeGene, self).__init__()
-        AttributeGene._add_gene(self)
+        self._add_gene(self)
 
         if hasattr(self, 'add_method_attributes'):
             self.add_method_attributes()
@@ -48,19 +55,6 @@ class AttributeGene(BaseGene):
     def register_method_attribute(self, name, method):
         self.method_attributes[name] = method
 
-        # def grant_behaviour(self, instance):
-        # if self.attributes is not None:
-        # for attribute, value in self.attributes.items():
-        #             setattr(instance, attribute, value)
-        #
-        #     for name, behaviour in self.behaviours.items():
-        #         setattr(instance, name, MethodType(behaviour, instance))
-        #
-        # def register_behaviour(self, name, behaviour):
-        #     if len(self.behaviours) >= 1:
-        #         raise TooManyBehaviours()
-        #     self.behaviours[name] = behaviour
-
 
 class EnablerGene(BaseGene):
     attributes = None
@@ -68,7 +62,7 @@ class EnablerGene(BaseGene):
 
     def __init__(self):
         super(EnablerGene, self).__init__()
-        EnablerGene._add_gene(self)
+        self._add_gene(self)
         self.behaviours = {}
         self.add_behaviour()
 
