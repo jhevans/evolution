@@ -32,11 +32,6 @@ class TestBaseGene(unittest.TestCase):
             self.assertIn(gene, BaseGene.get_all_genes())
 
     @patch('logging.getLogger')
-    def test_get_logger(self, mock_getLogger):
-        self.test_gene_1.get_logger()
-        mock_getLogger.assert_called_with('evolution.genes.base_genes.BaseGene')
-
-    @patch('logging.getLogger')
     def test_add_gene_logs_debug_message(self, mock_getLogger):
         mock_logger = Mock()
         mock_getLogger.return_value = mock_logger

@@ -1,13 +1,13 @@
 from types import MethodType
-import logging
 
 from genes.exceptions import TooManyBehaviours, BehaviourNotImplemented
+from util.mixins import LoggerMixin
 
 
 __author__ = 'John H Evans'
 
 
-class BaseGene(object):
+class BaseGene(LoggerMixin):
     _all_genes = []
     _last_id = 0
 
@@ -18,17 +18,12 @@ class BaseGene(object):
 
     @classmethod
     def _add_gene(cls, new_gene):
-        cls.get_logger().debug('Adding gene %s' % (cls.__name__,))
+        cls.debug('Adding gene %s' % (cls.__name__,))
         cls._all_genes.append(new_gene)
 
     @classmethod
     def get_all_genes(cls):
         return cls._all_genes
-
-    @classmethod
-    def get_logger(cls):
-        logger_name = 'evolution.' + cls.__module__ + '.' + cls.__name__
-        return logging.getLogger(logger_name)
 
 
 class AttributeGene(BaseGene):
