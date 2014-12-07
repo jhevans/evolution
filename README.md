@@ -18,9 +18,9 @@ an organism.  It is up to the behaviour method to decide whether or not to perfo
 has a behaviour move() this function will always be called but will not necessarily result in the organism moving.
 
 TODO:
-- Add logic to senescence Pseudo to die with increasing probability as age increases.
 - Get a very basic environment running with some doomed organisms
 - Implement Genesis class for instantiating starting organisms
+- Design missing method behaviour of organism
 - Implement EnvironmentalContext as class
 - Implement supervisor thread to return current state of environment
 

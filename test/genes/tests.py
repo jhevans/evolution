@@ -1,7 +1,8 @@
 from unittest.mock import Mock
 
-from genes.base_genes import EnablerGene, BaseGene
+from genes.base_genes import EnablerGene, BaseGene, AttributeGene
 from genes.exceptions import TooManyBehaviours, BehaviourNotImplemented
+from organism.organism import Organism
 
 
 __author__ = 'John H Evans'
@@ -30,6 +31,42 @@ class TestBaseGene(unittest.TestCase):
             self.assertIn(gene, BaseGene.get_all_genes())
 
 
+class TestAttributeGene(unittest.TestCase):
+    class TestAttributeGene(AttributeGene):
+        attributes = {
+            'foo': 0,
+            'bar': 'the initial value of bar',
+        }
+
+        def add_method_attributes(self):
+            def frobnicate(self):
+                self.foo += 1
+                self.bar = 'the new value of bar'
+
+            self.register_method_attribute('frobnicate', frobnicate)
+
+    def setUp(self):
+        self.mock_organism = Mock(spec=Organism)
+        self.attribute_gene = self.TestAttributeGene()
+        self.attribute_gene.grant_attributes(self.mock_organism)
+
+    def test_attributes_given_to_organism(self):
+        for attribute in self.TestAttributeGene.attributes:
+            self.assertTrue(hasattr(self.mock_organism, attribute))
+
+    def test_attributes_set_to_initial_value(self):
+        for attribute, value in self.TestAttributeGene.attributes.items():
+            self.assertEqual(getattr(self.mock_organism, attribute), value)
+
+    def test_method_attributes_given_to_organism(self):
+        self.assertTrue(hasattr(self.mock_organism, 'frobnicate'))
+
+    def test_method_attributes_work(self):
+        self.mock_organism.frobnicate()
+        self.assertEqual(self.mock_organism.foo, 1)
+        self.assertEqual(self.mock_organism.bar, 'the new value of bar')
+
+
 class TestEnablerGene(unittest.TestCase):
     class TestEnabler(EnablerGene):
         attributes = {
@@ -37,17 +74,15 @@ class TestEnablerGene(unittest.TestCase):
             'bar': 'the initial value of bar',
         }
 
-        def behaviour(self):
+        def add_behaviour(self):
             def frobnicate(self):
                 self.foo += 1
                 self.bar = 'the new value of bar'
 
             self.register_behaviour('frobnicate', frobnicate)
 
-    EXPECTED_BEHAVIOUR_NAME = 'frobnicate'
-
     def setUp(self):
-        self.mock_organism = Mock()
+        self.mock_organism = Mock(spec=Organism)
         self.enabler = self.TestEnabler()
         self.enabler.grant_behaviour(self.mock_organism)
         self.non_enabler = BaseGene()
@@ -66,10 +101,10 @@ class TestEnablerGene(unittest.TestCase):
             self.assertEqual(getattr(self.mock_organism, attribute), value)
 
     def test_behaviour_given_to_organism(self):
-        self.assertTrue(hasattr(self.mock_organism, self.EXPECTED_BEHAVIOUR_NAME))
+        self.assertTrue(hasattr(self.mock_organism, 'frobnicate'))
 
     def test_behaviour_works(self):
-        getattr(self.mock_organism, self.EXPECTED_BEHAVIOUR_NAME)()
+        self.mock_organism.frobnicate()
         self.assertEqual(self.mock_organism.foo, 1)
         self.assertEqual(self.mock_organism.bar, 'the new value of bar')
 
