@@ -48,7 +48,7 @@ class TestAttributeGene(unittest.TestCase):
     def setUp(self):
         self.mock_organism = Mock(spec=Organism)
         self.attribute_gene = self.TestAttributeGene()
-        self.attribute_gene.grant_attributes(self.mock_organism)
+        self.attribute_gene.decorate(self.mock_organism)
 
     def test_attributes_given_to_organism(self):
         for attribute in self.TestAttributeGene.attributes:
@@ -84,7 +84,7 @@ class TestEnablerGene(unittest.TestCase):
     def setUp(self):
         self.mock_organism = Mock(spec=Organism)
         self.enabler = self.TestEnabler()
-        self.enabler.grant_behaviour(self.mock_organism)
+        self.enabler.decorate(self.mock_organism)
         self.non_enabler = BaseGene()
 
         self.test_genes = [

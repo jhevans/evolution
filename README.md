@@ -20,7 +20,7 @@ has a behaviour move() this function will always be called but will not necessar
 TODO:
 - Get a very basic environment running with some doomed organisms
 - Implement Genesis class for instantiating starting organisms
-- Design missing method behaviour of organism
+- Design and implement missing method behaviour of organism
 - Implement EnvironmentalContext as class
 - Implement supervisor thread to return current state of environment
 

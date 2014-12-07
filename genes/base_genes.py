@@ -36,7 +36,7 @@ class AttributeGene(BaseGene):
         if hasattr(self, 'add_method_attributes'):
             self.add_method_attributes()
 
-    def grant_attributes(self, instance):
+    def decorate(self, instance):
         if self.attributes is not None:
             for attribute, value in self.attributes.items():
                 setattr(instance, attribute, value)
@@ -75,7 +75,7 @@ class EnablerGene(BaseGene):
     def add_behaviour(self):
         raise BehaviourNotImplemented()
 
-    def grant_behaviour(self, instance):
+    def decorate(self, instance):
         if self.attributes is not None:
             for attribute, value in self.attributes.items():
                 setattr(instance, attribute, value)
