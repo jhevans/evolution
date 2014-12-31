@@ -1,4 +1,4 @@
-from unittest.mock import Mock
+from unittest.mock import Mock, patch
 
 from genes.pseudo_genes import Mortality, Senescence
 from organism.organism import Organism
@@ -12,6 +12,7 @@ import unittest
 class TestMortality(unittest.TestCase):
     def setUp(self):
         self.mock_organism = Mock(spec=Organism())
+        self.mock_organism.name = 'mock_organism_name'
         self.mortality_pseudo = Mortality()
         self.mortality_pseudo.decorate(self.mock_organism)
 
@@ -27,6 +28,16 @@ class TestMortality(unittest.TestCase):
     def test_die(self):
         self.mock_organism.die()
         self.assertFalse(self.mock_organism.alive)
+
+    @patch('logging.getLogger')
+    def test_death_logged(self, mock_getLogger):
+        mock_logger = Mock()
+        mock_getLogger.return_value = mock_logger
+        self.mock_organism.die()
+        mock_logger.debug.assert_called_with('Organism "mock_organism_name" died')
+
+
+
 
 
 class TestSenescence(unittest.TestCase):

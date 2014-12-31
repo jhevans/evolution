@@ -11,6 +11,7 @@ class Mortality(AttributeGene, PseudoGeneMixin):
 
     def add_method_attributes(self):
         def die(decorated_self):
+            self.debug('Organism "%s" died' % decorated_self.name)
             decorated_self.alive = False
 
         self.register_method_attribute('die', die)
