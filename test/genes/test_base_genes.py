@@ -1,4 +1,3 @@
-from unittest.case import skip
 from unittest.mock import Mock, patch
 
 from genes.base_genes import EnablerGene, BaseGene, AttributeGene
@@ -74,14 +73,6 @@ class TestAttributeGene(unittest.TestCase):
         self.assertEqual(self.mock_organism.foo, 1)
         self.assertEqual(self.mock_organism.bar, 'the new value of bar')
 
-    @skip
-    def test_register_method_attribute_logs(self):
-        mock_organism = Mock(spec=Organism())
-        self.attribute_gene.decorate(self.mock_organism)
-        BaseGene.logger = Mock()
-        BaseGene()
-        BaseGene.logger.debug.assert_called_with('Adding gene BaseGene')
-
 
 class TestEnablerGene(unittest.TestCase):
     class TestEnabler(EnablerGene):
@@ -146,6 +137,16 @@ class TestEnablerGene(unittest.TestCase):
     def test_get_all_genes_on_enabler_returns_only_enablers(self):
         self.assertIn(self.enabler, EnablerGene.get_all_genes())
         self.assertNotIn(self.non_enabler, EnablerGene.get_all_genes())
+
+    @patch('logging.getLogger')
+    def test_add_gene_logs_debug_message(self, mock_getLogger):
+        mock_logger = Mock()
+        mock_getLogger.return_value = mock_logger
+        foo_enabler = self.TestEnabler()
+        mock_organism_1 = Mock(spec=Organism())
+        mock_organism_1.name = 'mock_organism_name'
+        foo_enabler.decorate(mock_organism_1)
+        mock_logger.debug.assert_called_with('Adding gene TestEnabler to organism "mock_organism_name"')
 
 
 if __name__ == '__main__':
