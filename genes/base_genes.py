@@ -18,7 +18,7 @@ class BaseGene(LoggerMixin):
 
     @classmethod
     def _add_gene(cls, new_gene):
-        cls.debug('Adding gene %s' % (cls.__name__,))
+        cls.debug('Created new gene %s' % (cls.__name__,))
         cls._all_genes.append(new_gene)
 
     @classmethod
@@ -39,6 +39,7 @@ class AttributeGene(BaseGene):
             self.add_method_attributes()
 
     def decorate(self, instance):
+        self.debug('Adding gene %s to organism "%s"' % (self.__class__.__name__, instance.name))
         if self.attributes is not None:
             for attribute, value in self.attributes.items():
                 setattr(instance, attribute, value)
@@ -65,6 +66,7 @@ class EnablerGene(BaseGene):
         raise BehaviourNotImplemented()
 
     def decorate(self, instance):
+        self.debug('Adding gene %s to organism "%s"' % (self.__class__.__name__, instance.name))
         if self.attributes is not None:
             for attribute, value in self.attributes.items():
                 setattr(instance, attribute, value)

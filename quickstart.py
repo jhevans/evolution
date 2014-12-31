@@ -28,7 +28,7 @@ def run():
             gene.decorate(organism)
         organisms.append(organism)
 
-    for n in range(100):
+    for n in range(1000):
         dead_count = 0
         print("====================")
         print("age = ", n)

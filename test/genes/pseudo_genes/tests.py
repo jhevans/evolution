@@ -11,7 +11,7 @@ import unittest
 
 class TestMortality(unittest.TestCase):
     def setUp(self):
-        self.mock_organism = Mock(spec=Organism)
+        self.mock_organism = Mock(spec=Organism())
         self.mortality_pseudo = Mortality()
         self.mortality_pseudo.decorate(self.mock_organism)
 
@@ -31,7 +31,7 @@ class TestMortality(unittest.TestCase):
 
 class TestSenescence(unittest.TestCase):
     def setUp(self):
-        self.mock_organism = Mock(spec=Organism)
+        self.mock_organism = Mock(spec=Organism())
         self.mock_organism.die = Mock()
         self.mock_random = Mock(return_value=0.5)
         self.senescence = Senescence(self.mock_random)

@@ -36,7 +36,7 @@ class TestBaseGene(unittest.TestCase):
         mock_logger = Mock()
         mock_getLogger.return_value = mock_logger
         BaseGene()
-        mock_logger.debug.assert_called_with('Adding gene BaseGene')
+        mock_logger.debug.assert_called_with('Created new gene BaseGene')
 
 
 class TestAttributeGene(unittest.TestCase):
@@ -54,7 +54,7 @@ class TestAttributeGene(unittest.TestCase):
             self.register_method_attribute('frobnicate', frobnicate)
 
     def setUp(self):
-        self.mock_organism = Mock(spec=Organism)
+        self.mock_organism = Mock(spec=Organism())
         self.attribute_gene = self.TestAttributeGene()
         self.attribute_gene.decorate(self.mock_organism)
 
@@ -76,7 +76,7 @@ class TestAttributeGene(unittest.TestCase):
 
     @skip
     def test_register_method_attribute_logs(self):
-        mock_organism = Mock(spec=Organism)
+        mock_organism = Mock(spec=Organism())
         self.attribute_gene.decorate(self.mock_organism)
         BaseGene.logger = Mock()
         BaseGene()
@@ -98,7 +98,7 @@ class TestEnablerGene(unittest.TestCase):
             self.register_behaviour('frobnicate', frobnicate)
 
     def setUp(self):
-        self.mock_organism = Mock(spec=Organism)
+        self.mock_organism = Mock(spec=Organism())
         self.enabler = self.TestEnabler()
         self.enabler.decorate(self.mock_organism)
         self.non_enabler = BaseGene()

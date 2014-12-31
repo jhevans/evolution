@@ -22,7 +22,7 @@ class Senescence(EnablerGene, PseudoGeneMixin):
         'died_age': None,
     }
 
-    LIVE_DIE_RATIO = 9 / 10
+    LIVE_DIE_RATIO = 99 / 100
 
     def __init__(self, inject__random):
         self.__random = inject__random
