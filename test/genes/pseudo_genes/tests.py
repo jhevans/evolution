@@ -43,6 +43,7 @@ class TestMortality(unittest.TestCase):
 class TestSenescence(unittest.TestCase):
     def setUp(self):
         self.mock_organism = Mock(spec=Organism())
+        self.mock_organism.name = "mock_organism_name"
         self.mock_organism.die = Mock()
         self.mock_random = Mock(return_value=0.5)
         self.senescence = Senescence(self.mock_random)
@@ -107,6 +108,12 @@ class TestSenescence(unittest.TestCase):
         self.mock_organism.increment_age()
         self.assertEqual(self.mock_organism.died_age, 1)
 
+    @patch('logging.getLogger')
+    def test_increase_age_logs(self, mock_getLogger):
+        mock_logger = Mock()
+        mock_getLogger.return_value = mock_logger
+        self.mock_organism.increment_age()
+        mock_logger.debug.assert_called_with('increase_age() called on Organism "mock_organism_name", current age is 1')
 
 if __name__ == '__main__':
     unittest.main()

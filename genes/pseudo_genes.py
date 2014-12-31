@@ -33,6 +33,8 @@ class Senescence(EnablerGene, PseudoGeneMixin):
     def add_behaviour(self):
         def increment_age(decorated_self):
             decorated_self.age += 1
+            self.debug(
+                'increase_age() called on Organism "%s", current age is %i' % (decorated_self.name, decorated_self.age))
             if decorated_self.died_age is None:
                 if self.__random() >= self.LIVE_DIE_RATIO:
                     decorated_self.die()
