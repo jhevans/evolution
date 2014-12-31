@@ -34,10 +34,7 @@ class TestMortality(unittest.TestCase):
         mock_logger = Mock()
         mock_getLogger.return_value = mock_logger
         self.mock_organism.die()
-        mock_logger.debug.assert_called_with('Organism "mock_organism_name" died')
-
-
-
+        mock_logger.info.assert_called_with('Organism "mock_organism_name" died')
 
 
 class TestSenescence(unittest.TestCase):
